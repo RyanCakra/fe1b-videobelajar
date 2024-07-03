@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi';
+import { FaBook, FaShoppingBag, FaRegClock } from 'react-icons/fa';
 import { card } from '../../Data';
 
 const FilterSidebar = ({ filters, setFilters, resetPage }) => {
@@ -119,7 +120,10 @@ const FilterSidebar = ({ filters, setFilters, resetPage }) => {
       {/* Bidang Studi */}
       <div className="mb-4 border border-gray-200 rounded-lg p-2">
         <div className="flex justify-between items-center mb-2">
-          <h4 className="text-md font-medium">Bidang Studi</h4>
+          <div className="flex items-center gap-2 text-green-500">
+            <FaBook />
+            <h4 className="text-md font-medium">Bidang Studi</h4>
+          </div>
           <button onClick={toggleBidangStudi}>{showBidangStudi ? <HiChevronUp /> : <HiChevronDown />}</button>
         </div>
         {showBidangStudi && (
@@ -137,7 +141,10 @@ const FilterSidebar = ({ filters, setFilters, resetPage }) => {
       {/* Harga */}
       <div className="mb-4 border border-gray-200 rounded-lg p-2">
         <div className="flex justify-between items-center mb-2">
-          <h4 className="text-md font-medium">Harga</h4>
+          <div className="flex items-center gap-2 text-green-500">
+            <FaShoppingBag />
+            <h4 className="text-md font-medium">Harga</h4>
+          </div>
           <button onClick={toggleHarga}>{showHarga ? <HiChevronUp /> : <HiChevronDown />}</button>
         </div>
         {showHarga && (
@@ -155,7 +162,10 @@ const FilterSidebar = ({ filters, setFilters, resetPage }) => {
       {/* Durasi */}
       <div className="mb-4 border border-gray-200 rounded-lg p-2">
         <div className="flex justify-between items-center mb-2">
-          <h4 className="text-md font-medium">Durasi</h4>
+          <div className="flex items-center gap-2 text-green-500">
+            <FaRegClock />
+            <h4 className="text-md font-medium">Durasi</h4>
+          </div>
           <button onClick={toggleDurasi}>{showDurasi ? <HiChevronUp /> : <HiChevronDown />}</button>
         </div>
         {showDurasi && (

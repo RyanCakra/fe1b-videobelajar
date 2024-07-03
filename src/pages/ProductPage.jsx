@@ -38,13 +38,13 @@ function ProductPage() {
   };
 
   return (
-    <div className="bg-bgc">
+    <div className="bg-bgc ">
       <Navbar />
       <main className="py-32">
-        <div className="container mx-auto">
+        <div className="container max-w-screen-4xl mx-auto">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold">Koleksi Video Pembelajaran Unggulan</h1>
           <h2 className="text-base sm:text-lg font-normal opacity-80">Jelajahi Dunia Pengetahuan Melalui Pilihan Kami!</h2>
-          <div className="flex flex-col border border-gray-400 md:flex-row mt-10 p-4 gap-4">
+          <div className="flex flex-col md:flex-row mt-10 p-4 gap-4">
             <FilterSidebar filters={filters} setFilters={handleFiltersChange} resetPage={handleResetPage} />
             <div className="w-full md:pl-4">
               <div className="flex flex-col md:flex-row justify-end items-center mb-4">
