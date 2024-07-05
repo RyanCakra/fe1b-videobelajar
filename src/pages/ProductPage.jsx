@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
 import Footer from '../components/container/Footer';
 import FilterSidebar from '../components/container/FilterSidebar';
@@ -63,7 +64,9 @@ function ProductPage() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {currentData.map((card, index) => (
-                  <Card key={index} card={card} />
+                  <Link to={`/product/${card.id}`} key={index}>
+                    <Card key={index} card={card} />
+                  </Link>
                 ))}
               </div>
               <div className="flex justify-end md:justify-end mt-4">

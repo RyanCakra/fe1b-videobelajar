@@ -23,10 +23,10 @@ const Card = ({ card }) => {
             <span className="text-gray-600 ml-2">{card.rate[0].rateAvg}</span>
             <span className="text-gray-600 ml-2">({card.rate[0].rateCount})</span>
           </div>
-          {card.discount ? (
+          {card.hargaDisc ? (
             <div className="flex items-center">
               <span className="text-red-500 text-sm line-through mr-2">{card.harga}</span>
-              <span className="text-green-500 text-lg font-bold">{card.discount}</span>
+              <span className="text-green-500 text-lg font-bold">{card.hargaDisc}</span>
             </div>
           ) : (
             <span className="text-green-500 text-lg font-bold">{card.harga}</span>

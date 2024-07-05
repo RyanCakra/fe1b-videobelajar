@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
 import Footer from '../components/container/Footer';
 import Card from '../components/container/Card';
@@ -45,7 +46,9 @@ const HomePage = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {currentData.map((item) => (
-              <Card key={item.id} card={item} />
+              <Link to={`/product/${item.id}`}>
+                <Card key={item.id} card={item} />
+              </Link>
             ))}
           </div>
           <div className="flex justify-end mt-8">

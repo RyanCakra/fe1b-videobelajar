@@ -1,4 +1,4 @@
-import { Home, Register, Login, Product } from './components/index';
+import { Home, Register, Login, Product, Detail } from './components/index';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 function App() {
@@ -18,6 +18,10 @@ function App() {
     {
       path: '/register',
       element: <Register />,
+    },
+    {
+      path: '/product/:id',
+      element: <Detail />,
     },
   ]);
   return <RouterProvider router={router} />;
