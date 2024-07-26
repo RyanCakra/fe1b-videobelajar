@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
 import Footer from '../components/container/Footer';
@@ -25,6 +25,10 @@ const DetailPage = () => {
     );
   }
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="bg-bgc">
       <Navbar />
@@ -37,10 +41,10 @@ const DetailPage = () => {
               <p className="text-gray-200 mr-72 mb-1">Belajar bersama tutor profesional di Video Course. Kapanpun, di manapun.</p>
               <div className="flex items-center mb-3">
                 {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} className={i < Math.round(detail.rate[0].rateAvg) ? 'text-yellow-500 mt-1' : 'text-gray-300 mt-1'} />
+                  <FaStar key={i} className={i < Math.round(detail.rate.rateAvg) ? 'text-yellow-500 mt-1' : 'text-gray-300 mt-1'} />
                 ))}
-                <span className="text-gray-300 ml-2">{detail.rate[0].rateAvg}</span>
-                <span className="text-gray-300 ml-2">({detail.rate[0].rateCount})</span>
+                <span className="text-gray-300 ml-2">{detail.rate.rateAvg}</span>
+                <span className="text-gray-300 ml-2">({detail.rate.rateCount})</span>
               </div>
             </div>
           </section>
@@ -193,9 +197,9 @@ const DetailPage = () => {
                 <p className="text-gray-600 mb-2">{relatedCard.author}</p>
                 <div className="flex items-center mb-2">
                   {[...Array(5)].map((_, i) => (
-                    <FaStar key={i} className={i < Math.round(relatedCard.rate[0].rateAvg) ? 'text-yellow-500 mt-1' : 'text-gray-300 mt-1'} />
+                    <FaStar key={i} className={i < Math.round(relatedCard.rate.rateAvg) ? 'text-yellow-500 mt-1' : 'text-gray-300 mt-1'} />
                   ))}
-                  <span className="text-gray-600 ml-2">{relatedCard.rate[0].rateAvg}</span>
+                  <span className="text-gray-600 ml-2">{relatedCard.rate.rateAvg}</span>
                 </div>
                 <span className="text-green-500 text-lg font-bold">{relatedCard.hargaDisc || relatedCard.harga}</span>
               </Link>

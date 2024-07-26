@@ -72,10 +72,10 @@ const useFilteredAndPaginate = (data, filters, itemsPerPage, sortOrder, searchQu
           sorted.sort((a, b) => b.judul.localeCompare(a.judul));
           break;
         case 'ratingHigh':
-          sorted.sort((a, b) => b.rate[0].rateAvg - a.rate[0].rateAvg);
+          sorted.sort((a, b) => b.rate.rateAvg - a.rate.rateAvg);
           break;
         case 'ratingLow':
-          sorted.sort((a, b) => a.rate[0].rateAvg - b.rate[0].rateAvg);
+          sorted.sort((a, b) => a.rate.rateAvg - b.rate.rateAvg);
           break;
         default:
           break;
