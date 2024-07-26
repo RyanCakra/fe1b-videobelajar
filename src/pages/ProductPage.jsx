@@ -60,7 +60,7 @@ function ProductPage() {
     <div className="bg-bgc ">
       <Navbar />
       <main className="py-32">
-        <div className="container max-w-screen-4xl mx-auto">
+        <div className="max-w-full mx-28 ">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold">Koleksi Video Pembelajaran Unggulan</h1>
           <h2 className="text-base sm:text-lg font-normal opacity-80">Jelajahi Dunia Pengetahuan Melalui Pilihan Kami!</h2>
           <div className="flex flex-col md:flex-row mt-10 p-4 gap-4">
@@ -80,7 +80,7 @@ function ProductPage() {
                   <input type="text" placeholder="Cari Kelas" className="form-input p-2 bg-white border border-gray-200 rounded-md w-full md:w-auto" value={searchQuery} onChange={handleSearchChange} />
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-10">
                 {currentData.map((card, index) => (
                   <Link to={`/product/${card.id}`} key={index}>
                     <Card key={index} card={card} />

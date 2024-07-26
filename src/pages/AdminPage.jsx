@@ -10,8 +10,8 @@ import { getProducts, addProduct, updateProduct, deleteProduct } from '../servic
 
 function AdminPage() {
   const [data, setData] = useState(card);
-  const [editId, setEditId] = useState(null); // New state for editing
-  const [isFormVisible, setIsFormVisible] = useState(false); // New state for form visibility
+  const [editId, setEditId] = useState(null);
+  const [isFormVisible, setIsFormVisible] = useState(false);
   const itemsPerPage = 5;
   const { currentPage, totalPages, currentData, changePage, resetPage } = usePaginate(data, itemsPerPage);
 

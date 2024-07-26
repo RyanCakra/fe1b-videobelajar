@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import axios from 'axios'; // Import axios
 import Navbar from '../components/container/Navbar';
 import Footer from '../components/container/Footer';
 
-import { card, review } from '../Data';
+import { review } from '../Data';
 import { FaStar, FaVideo, FaBook } from 'react-icons/fa';
 import { GrDocumentVerified, GrLanguage } from 'react-icons/gr';
 import { TbFileCertificate } from 'react-icons/tb';
@@ -11,8 +12,31 @@ import { TfiWrite } from 'react-icons/tfi';
 
 const DetailPage = () => {
   const { id } = useParams();
-  const detail = card.find((item) => item.id === parseInt(id));
-  const relatedReviews = review.filter((item) => item.cardId === parseInt(id));
+  const [detail, setDetail] = useState(null);
+  const [relatedReviews, setRelatedReviews] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://66a313e444aa6370457fbc3e.mockapi.io/products');
+        const productsData = response.data;
+        console.log('Products data:', productsData); // Tambahkan log untuk memeriksa data produk
+        setProducts(productsData);
+        const productDetail = productsData.find((item) => item.id === id); // Bandingkan sebagai string
+        console.log('Product detail:', productDetail); // Tambahkan log untuk memeriksa detail produk
+        setDetail(productDetail);
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!detail) {
     return (
@@ -24,10 +48,6 @@ const DetailPage = () => {
       </div>
     );
   }
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="bg-bgc">
@@ -123,7 +143,7 @@ const DetailPage = () => {
               </div>
             </div>
             <div className="w-1/3 rounded-lg">
-              <div className="bg-white h-max p-6 rounded-lg shadow-md border border-gray-200 ">
+              <div className="bg-white h-max p-6 rounded-lg shadow-md border border-gray-200 mb-6">
                 <h3 className="text-xl font-bold mb-4">Gapai Karier Impianmu sebagai Seorang UI/UX Designer & Product Manager.</h3>
                 <div className="my-4 flex justify-between">
                   <div>
@@ -138,7 +158,7 @@ const DetailPage = () => {
                   </div>
                   <div>
                     {detail.hargaDisc ? (
-                      <div className="bg-yellow-500 text-yellow-50 text-sm font-normal py-1 px-2 rounded-lg">
+                      <div className="bg-yellow-500 text-yellow-50 text-sm font-normal p-2 rounded-xl">
                         <p>Diskon {detail.discount}</p>
                       </div>
                     ) : (
@@ -146,12 +166,8 @@ const DetailPage = () => {
                     )}
                   </div>
                 </div>
-                <p className="my-4 font-medium text-blue-600">Penawaran spesial tersisa 2 hari lagi!</p>
-                <div className="flex flex-col mb-2">
-                  <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-xl mb-2">Beli Sekarang</button>
-                </div>
-
-                <div className="bg-white h-max my-5">
+                <button className="text-center py-3 bg-primary500 hover:bg-primary600 rounded-lg w-full text-white my-2">Beli Kelas</button>
+                <div className="my-4">
                   <h2 className="text-lg font-semibold mb-2">Kelas Ini Sudah Termasuk</h2>
                   <ul className="pl-1 grid grid-cols-2 space-y-3">
                     <li className="flex text-gray-500 items-center">
@@ -175,8 +191,7 @@ const DetailPage = () => {
                     </li>
                   </ul>
                 </div>
-
-                <div className="bg-white h-max mb-3">
+                <div className="my-4">
                   <h2 className="text-lg font-semibold mb-2">Bahasa Pengantar</h2>
                   <p className="flex items-center text-gray-500">
                     <GrLanguage className="mr-2" />
@@ -190,7 +205,7 @@ const DetailPage = () => {
           <h2 className="text-3xl font-semibold mt-8 mb-1">Video Pembelajaran Terkait Lainnya</h2>
           <h4 className="text-xl font-light mb-8">Ekspansi Pengetahuan Anda dengan Rekomendasi Spesial Kami!</h4>
           <div className="flex flex-rows gap-4">
-            {card.slice(0, 4).map((relatedCard) => (
+            {products.slice(0, 4).map((relatedCard) => (
               <Link to={`/product/${relatedCard.id}`} key={relatedCard.id} className="bg-white p-3 rounded-lg shadow-md border border-gray-200">
                 <img src={relatedCard.bannerImg} alt="Course Thumbnail" className="w-full h-32 object-cover rounded-lg mb-4" />
                 <h3 className="text-lg font-bold mb-2">{relatedCard.judul}</h3>
