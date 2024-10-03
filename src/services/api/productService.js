@@ -4,6 +4,34 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
+// Fungsi login untuk mendapatkan token JWT
+export const login = async (email, password) => {
+  try {
+    const response = await api.post('/login', { email, password });
+    const { token } = response.data;
+    // Simpan token di localStorage atau sessionStorage
+    localStorage.setItem('token', token);
+    return token;
+  } catch (error) {
+    console.error('Error during login:', error);
+    throw error;
+  }
+};
+
+// Tambahkan interceptor untuk menyertakan token di header
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const getProducts = async () => {
   try {
     const response = await api.get('/products');

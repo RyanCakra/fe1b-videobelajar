@@ -8,6 +8,7 @@ import OuterSection from '../components/Home/OuterSection';
 import { card as cardData } from '../Data';
 import useFilteredAndPaginate from '../hooks/useFilteredAndPaginate';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import axios from 'axios';
 
 const categories = ['Semua Kelas', 'Pemasaran', 'Desain', 'Pengembangan Diri', 'Bisnis'];
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios untuk membuat request
 import Navbar from '../components/container/Navbar';
 import DividerWithText from '../components/container/DividerWithText';
 import PasswordInput from '../components/container/PasswordInput';
@@ -10,20 +11,31 @@ function Login() {
     email: '',
     password: '',
   });
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate(); // Hook untuk mengarahkan ke halaman lain
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-  };
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
+    try {
+      // Mengirim permintaan POST ke backend dengan email dan password
+      const response = await axios.post('http://localhost:8080/login', formData);
+
+      // Simpan token JWT di localStorage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('role', response.data.role);
+
+      // Arahkan pengguna ke halaman lain
+      navigate('/');
+    } catch (error) {
+      // Tampilkan pesan kesalahan jika login gagal
+      setErrorMessage(error.response?.data?.message || 'Login failed. Please try again.');
+    }
   };
 
   return (
@@ -33,6 +45,7 @@ function Login() {
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
           <h1 className="text-3xl text-center font-semibold">Masuk Akun</h1>
           <h3 className="text-base text-center font-normal mb-6">Silakan masuk ke akunmu sekarang!</h3>
+          {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1" htmlFor="email">

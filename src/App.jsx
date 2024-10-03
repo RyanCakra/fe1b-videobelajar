@@ -1,4 +1,4 @@
-import { Home, Register, Login, Product, Detail, Admin } from './components/index';
+import { Home, Register, Login, Product, Detail, Admin, EmailVerification } from './components/index';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 function App() {
@@ -26,6 +26,10 @@ function App() {
     {
       path: '/product/:id',
       element: <Detail />,
+    },
+    {
+      path: '/verify/:token', // Route baru untuk verifikasi email
+      element: <EmailVerification />,
     },
   ]);
   return <RouterProvider router={router} />;

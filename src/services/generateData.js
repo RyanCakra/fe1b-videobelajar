@@ -1,16 +1,18 @@
 import { faker } from '@faker-js/faker';
 import axios from 'axios';
 
-function calculateDiscountedPrice(harga, diskon) {
-  if (!harga || !diskon) {
-    return null;
+// Function to login and get JWT token
+async function loginAndGetToken() {
+  try {
+    const response = await axios.post('http://localhost:8080/login', {
+      email: 'admin@example.com', // Replace with valid admin email
+      password: 'adminpassword', // Replace with valid admin password
+    });
+    return response.data.token;
+  } catch (error) {
+    console.error('Error logging in:', error);
+    throw new Error('Unable to get JWT token');
   }
-
-  const hargaNumeric = parseFloat(harga.replace('Rp ', '').replace('k', '')) * 1000;
-  const diskonNumeric = parseFloat(diskon.replace('%', '')) / 100;
-  const hargaDisc = hargaNumeric * (1 - diskonNumeric);
-  const hargaDiscFormatted = `Rp ${(hargaDisc / 1000).toFixed(0)}k`;
-  return hargaDiscFormatted;
 }
 
 const generateData = () => {
@@ -18,11 +20,14 @@ const generateData = () => {
 
   for (let i = 0; i < 20; i++) {
     const harga = `Rp ${faker.finance.amount(100, 500, 0)}k`;
-    const hasDiscount = faker.datatype.boolean(); // Determine if there's a discount
+    const hasDiscount = faker.datatype.boolean();
     const discount = hasDiscount ? `${faker.number.int({ min: 10, max: 70 })}%` : null;
-    const hargaDisc = discount ? calculateDiscountedPrice(harga, discount) : null;
 
-    data.push({
+    // Generate rate fields
+    const rateAvg = faker.number.float({ min: 1, max: 5, multipleOf: 0.1 });
+    const rateCount = faker.number.int({ min: 1, max: 500 });
+
+    const item = {
       id: i + 1,
       bannerImg: faker.image.business(),
       judul: faker.commerce.productName(),
@@ -32,31 +37,43 @@ const generateData = () => {
       pekerjaan: faker.person.jobTitle(),
       harga: harga,
       discount: discount,
-      hargaDisc: hargaDisc,
-      rate: {
-        rateAvg: faker.number.float({ min: 1, max: 5, multipleOf: 0.1 }),
-        rateCount: faker.number.int({ min: 1, max: 500 }),
-      },
       category: faker.commerce.department(),
       durasi: `${faker.number.int({ min: 1, max: 10 })} jam`,
-    });
+      rateAvg, // Send rateAvg to backend for further processing
+      rateCount, // Send rateCount to backend for further processing
+    };
+
+    console.log('Generated item:', item); // Log the generated item for debugging
+    data.push(item);
   }
 
   return data;
 };
 
-const postDataToMockAPI = async (data) => {
-  const apiEndpoint = 'https://66a313e444aa6370457fbc3e.mockapi.io/products'; // Replace with your correct MockAPI endpoint
+// Post generated data to your custom backend API
+const postDataToBackendAPI = async (data) => {
+  const apiEndpoint = 'http://localhost:8080/products'; // Update this to your actual backend API endpoint
+
   try {
+    const token = await loginAndGetToken(); // Get JWT token
+
     for (const item of data) {
-      await axios.post(apiEndpoint, item);
-      console.log(`Posted item with id ${item.id}`);
+      console.log('Posting item:', item); // Log the item before sending
+      await axios.post(apiEndpoint, item, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log(`Posted item: ${item.judul}`);
     }
     console.log('All data posted successfully');
   } catch (error) {
-    console.error('Error posting data to MockAPI:', error);
+    console.error('Error posting data to backend:', error);
   }
 };
 
-const data = generateData();
-postDataToMockAPI(data);
+// Generate and post data
+(async () => {
+  const data = generateData();
+  await postDataToBackendAPI(data);
+})();

@@ -9,14 +9,14 @@ const Notification = () => {
     if (notifications.length > 0) {
       const timer = setTimeout(() => {
         removeNotification(notifications[0].id);
-      }, 3000); // Hapus notifikasi setelah 3 detik
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
   }, [notifications, removeNotification]);
 
   return (
-    <div className="fixed bottom-4 right-4">
+    <div className="fixed bottom-4 right-4 z-50 rounded-lg">
       {notifications.map((notif) => (
         <div key={notif.id} className="bg-green-500 text-white p-4 mb-2 rounded">
           {notif.message}
